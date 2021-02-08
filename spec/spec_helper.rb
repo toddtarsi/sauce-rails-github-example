@@ -20,7 +20,7 @@ RSpec.configure do |config|
     # Configure the server port
     Capybara.server_port = 3001
     Capybara.app_host = "http://localhost:3001"
-    dont_use_sauce = true || ENV['USE_SAUCE'].nil?
+    dont_use_sauce = ENV['USE_SAUCE'].nil?
     unless dont_use_sauce
       Capybara.register_driver :sauce do |app|
         url = 'https://ondemand.us-west-1.saucelabs.com:443/wd/hub'
@@ -53,7 +53,7 @@ RSpec.configure do |config|
   end
 
   config.after do |test|
-    dont_use_sauce = true || ENV['USE_SAUCE'].nil?
+    dont_use_sauce = ENV['USE_SAUCE'].nil?
     unless dont_use_sauce
       session_id = Capybara.current_session.driver.browser.session_id
       SauceWhisk::Jobs.change_status(session_id, !test.exception)
