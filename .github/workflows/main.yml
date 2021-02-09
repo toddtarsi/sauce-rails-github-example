@@ -1,0 +1,34 @@
+name: ci
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  rspec:
+    name: rspec
+    runs-on: ubuntu-latest
+    container: ruby:2.6-slim
+
+    env:
+      SAUCE_ACCESS_KEY: '${{ secrets.SAUCE_ACCESS_KEY }}'
+      SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
+      SAUCE_USERNAME: '${{ secrets.SAUCE_USERNAME }}'
+      USE_SAUCE: true
+
+    steps:
+      - name: Run Sauce Connect
+        uses: saucelabs/sauce-connect-action@v1.1.1
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: sauce-ci-tunnel
+
+      - name: Install System Packages
+        run: apt-get update && apt-get install -y build-essential libxml2 libxml2-dev libxslt1.1 libxslt1-dev libpq5 libpq-dev git pkg-config
+
+      - name: Install Dependencies
+        run: gem install bundler && bundle install
+
+      - name: Run tests
+        run: bundle exec rspec spec/features/hello_world_spec.rb
