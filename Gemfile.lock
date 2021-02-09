@@ -206,9 +206,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sauce_whisk (0.2.2)
-      json
-      rest-client (~> 2.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -269,7 +266,6 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rspec (~> 1.32)
   sass-rails (>= 6)
-  sauce_whisk
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)

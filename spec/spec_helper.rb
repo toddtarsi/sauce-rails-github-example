@@ -7,7 +7,6 @@ require 'capybara'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'rspec'
-require 'sauce_whisk'
 
 Capybara.default_max_wait_time = 10
 
