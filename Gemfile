@@ -49,7 +49,6 @@ group :test do
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rspec', '~>1.32'
-  gem 'sauce_whisk'
   gem 'selenium-webdriver'
 end
 
