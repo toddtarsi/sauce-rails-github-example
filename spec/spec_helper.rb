@@ -53,7 +53,6 @@ RSpec.configure do |config|
     dont_use_sauce = ENV['USE_SAUCE'].nil?
     unless dont_use_sauce
       session_id = Capybara.current_session.driver.browser.session_id
-      SauceWhisk::Jobs.change_status(session_id, !test.exception)
       Capybara.current_session.quit
     end
   end
