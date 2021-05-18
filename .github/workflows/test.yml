@@ -12,17 +12,15 @@ jobs:
 
     env:
       SAUCE_ACCESS_KEY: '${{ secrets.SAUCE_ACCESS_KEY }}'
+      SAUCE_CONNECT_VERSION: '4.6.5',
       SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
       SAUCE_USERNAME: '${{ secrets.SAUCE_USERNAME }}'
       USE_SAUCE: true
 
     steps:
-      - name: Run Sauce Connect
-        uses: saucelabs/sauce-connect-action@v1.1.1
-        with:
-          username: ${{ secrets.SAUCE_USERNAME }}
-          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnelIdentifier: sauce-ci-tunnel
+      - name: Install Sauce Connect
+        run:  wget https://saucelabs.com/downloads/sc-$SAUCE_CONNECT_VERSION-linux.tar.gz -O - | tar -xz --strip 2
+        working-directory: /usr/local/bin
 
       - name: Install GH Actions Prerequisites
         run: apt-get update && apt-get install -y nodejs zstd git
