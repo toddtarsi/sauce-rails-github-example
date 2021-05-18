@@ -10,7 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     container: ruby:2.6-slim
 
+    services:
+      postgres:
+        image: postgres:11-alpine
+        env:
+          POSTGRES_USER: root
+          POSTGRES_DB: platform_test
+          POSTGRES_PASSWORD: root
+
     env:
+      RAILS_ENV: test
+      TEST_PG_DATABASE: platform_test
+      TEST_PG_USERNAME: root
+      TEST_PG_PASSWORD: root
+      TEST_PG_HOSTNAME: postgres
+      TEST_PG_PORT: 5432
       SAUCE_ACCESS_KEY: '${{ secrets.SAUCE_ACCESS_KEY }}'
       SAUCE_CONNECT_VERSION: '4.6.5',
       SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
