@@ -26,7 +26,7 @@ jobs:
       TEST_PG_HOSTNAME: postgres
       TEST_PG_PORT: 5432
       SAUCE_ACCESS_KEY: '${{ secrets.SAUCE_ACCESS_KEY }}'
-      SAUCE_CONNECT_VERSION: '4.6.5',
+      SAUCE_CONNECT_VERSION: '4.6.5'
       SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
       SAUCE_USERNAME: '${{ secrets.SAUCE_USERNAME }}'
       USE_SAUCE: true
