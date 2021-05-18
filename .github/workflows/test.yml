@@ -32,12 +32,13 @@ jobs:
       USE_SAUCE: true
 
     steps:
+      - name: Install GH Actions Prerequisites
+        run: apt-get update && apt-get install -y nodejs zstd git wget
+
       - name: Install Sauce Connect
         run:  wget https://saucelabs.com/downloads/sc-$SAUCE_CONNECT_VERSION-linux.tar.gz -O - | tar -xz --strip 2
         working-directory: /usr/local/bin
 
-      - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git
 
       - name: Checkout repo
         uses: actions/checkout@master
