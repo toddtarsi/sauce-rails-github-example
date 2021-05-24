@@ -38,8 +38,8 @@ jobs:
       - name: If not doing in process, install sauce connect action
         uses: saucelabs/sauce-connect-action@v1
           with:
-              username: ${{ secrets.SAUCE_USERNAME }}
-              accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+              username: ${{ env.SAUCE_USERNAME }}
+              accessKey: ${{ env.SAUCE_ACCESS_KEY }}
               tunnelIdentifier: github-action-tunnel
               scVersion: 4.6.4
         if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == false}}
