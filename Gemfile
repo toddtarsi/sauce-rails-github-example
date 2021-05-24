@@ -44,6 +44,7 @@ end
 
 group :test do
   gem 'capybara', '>= 3.16.2'
+  gem 'sauce_whisk'
   gem 'rake'
   gem 'rspec'
   gem 'rubocop'
