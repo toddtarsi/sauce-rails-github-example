@@ -1,13 +1,17 @@
 # These are our hooks to configure RSpec
-# Note that there is an expected environment variable of USE_SAUCE=true
+# Note that there is an expected environment variable of USE_SAUCE_CONNECT_IN_PROCESS=true
 RSpec.configure do |config|
   config.before(:suite) do
     SauceWhisk.data_center = :US_WEST
-    @sc_worker = SauceConnectWorker.new
-    @sc_worker.wait_until_ready
+    if env['USE_SAUCE_CONNECT_IN_PROCESS']
+      @sc_worker = SauceConnectWorker.new
+      @sc_worker.wait_until_ready
+    end
   end
   config.after(:suite) do
-    @sc_worker&.complete
+    if env['USE_SAUCE_CONNECT_IN_PROCESS']
+      @sc_worker&.complete
+    end
   end
   config.before do |test|
     Capybara.register_driver :sauce do |app|
@@ -81,6 +85,7 @@ class SauceConnectWorker
     @stdout.close
     Process.kill('KILL', @wait_thr.pid)
   end
+end
 
 # This ensures that certain steps are only run for feature tests, eg Capybara tests
 def is_feature(test)

@@ -29,15 +29,25 @@ jobs:
       SAUCE_CONNECT_VERSION: '4.6.5'
       SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
       SAUCE_USERNAME: '${{ secrets.SAUCE_USERNAME }}'
-      USE_SAUCE: true
+      USE_SAUCE_CONNECT_IN_PROCESS: true
 
     steps:
       - name: Install GH Actions Prerequisites
         run: apt-get update && apt-get install -y nodejs zstd git wget
+      
+      - name: If not doing in process, install sauce connect action
+        uses: saucelabs/sauce-connect-action@v1
+            with:
+                username: ${{ secrets.SAUCE_USERNAME }}
+                accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+                tunnelIdentifier: github-action-tunnel
+                scVersion: 4.6.4
+        if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == false}}
 
-      - name: Install Sauce Connect
+      - name: If using a spawned process for sc, install Sauce Connect to somewhere on PATH
         run:  wget https://saucelabs.com/downloads/sc-$SAUCE_CONNECT_VERSION-linux.tar.gz -O - | tar -xz --strip 2
         working-directory: /usr/local/bin
+        if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == true}}
 
       - name: Checkout repo
         uses: actions/checkout@master
