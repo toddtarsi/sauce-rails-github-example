@@ -29,6 +29,7 @@ jobs:
       SAUCE_CONNECT_VERSION: '4.6.5'
       SAUCE_TUNNEL_ID: 'sauce-ci-tunnel'
       SAUCE_USERNAME: '${{ secrets.SAUCE_USERNAME }}'
+      USE_SAUCE: true
       USE_SAUCE_CONNECT_IN_PROCESS: true
 
     steps:

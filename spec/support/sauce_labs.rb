@@ -3,46 +3,48 @@
 RSpec.configure do |config|
   config.before(:suite) do
     SauceWhisk.data_center = :US_WEST
-    if env['USE_SAUCE_CONNECT_IN_PROCESS']
+    if ENV['USE_SAUCE_CONNECT_IN_PROCESS']
       @sc_worker = SauceConnectWorker.new
       @sc_worker.wait_until_ready
     end
   end
   config.after(:suite) do
-    if env['USE_SAUCE_CONNECT_IN_PROCESS']
+    if ENV['USE_SAUCE_CONNECT_IN_PROCESS']
       @sc_worker&.complete
     end
   end
   config.before do |test|
-    Capybara.register_driver :sauce do |app|
-      url = "https://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}@ondemand.us-west-1.saucelabs.com:443/wd/hub"
-      browser_name = ENV['BROWSER_NAME'] || 'chrome'
+    if ENV['USE_SAUCE']
+      Capybara.register_driver :sauce do |app|
+        url = "https://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}@ondemand.us-west-1.saucelabs.com:443/wd/hub"
+        browser_name = ENV['BROWSER_NAME'] || 'chrome'
 
-      Capybara::Selenium::Driver.new(
-        app,
-        browser: :remote,
-        url: url,
-        desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(
-          browser_name,
-          browser_name: browser_name,
-          platform_name: ENV['PLATFORM_NAME'] || 'Windows 10',
-          browser_version: ENV['BROWSER_VERSION'] || 'latest',
-          'sauce:options': {
-            name: test.full_description,
-            username: ENV['SAUCE_USERNAME'],
-            access_key: ENV['SAUCE_ACCESS_KEY'],
-            tunnelIdentifier: ENV['SAUCE_TUNNEL_ID'],
-            screenResolution: '1600x1200',
-            extendedDebugging: true
-          }
-        ),
-        clear_local_storage: true,
-        clear_session_storage: true
-      )
+        Capybara::Selenium::Driver.new(
+          app,
+          browser: :remote,
+          url: url,
+          desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(
+            browser_name,
+            browser_name: browser_name,
+            platform_name: ENV['PLATFORM_NAME'] || 'Windows 10',
+            browser_version: ENV['BROWSER_VERSION'] || 'latest',
+            'sauce:options': {
+              name: test.full_description,
+              username: ENV['SAUCE_USERNAME'],
+              access_key: ENV['SAUCE_ACCESS_KEY'],
+              tunnelIdentifier: ENV['SAUCE_TUNNEL_ID'],
+              screenResolution: '1600x1200',
+              extendedDebugging: true
+            }
+          ),
+          clear_local_storage: true,
+          clear_session_storage: true
+        )
+      end
     end
   end
   config.after(:each) do |test|
-    if is_feature(test)
+    if ENV['USE_SAUCE'] && is_feature(test)
       # If we're using sauce, we gotta do this to make Sauce Labs
       # know that one e2e test ended and we're about to start the next
       session_id = Capybara.current_session.driver.browser.session_id

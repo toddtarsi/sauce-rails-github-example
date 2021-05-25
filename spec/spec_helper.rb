@@ -8,7 +8,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'rspec'
 require 'sauce_whisk'
-require File.expand_path('./support/sauce_labs', __FILE__)
+require File.expand_path('./support/sauce_labs', __dir__)
 
 Capybara.default_max_wait_time = 10
 
