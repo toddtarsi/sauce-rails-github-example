@@ -45,7 +45,7 @@ jobs:
         with:
             username: ${{ env.SAUCE_USERNAME }}
             accessKey: ${{ env.SAUCE_ACCESS_KEY }}
-            tunnelIdentifier: github-action-tunnel
+            tunnelIdentifier: ${{ env.SAUCE_TUNNEL_ID }}
             scVersion: 4.6.5
         if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'false'}}
 
