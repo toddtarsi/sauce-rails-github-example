@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git wget curl sudo gpg
+        run: apt-get update && apt-get install -y nodejs zstd git wget curl sudo gpg systemctl
       
       - name: Set up docker if using sauce outside of a process
         uses: docker-practice/actions-setup-docker@master
