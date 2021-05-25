@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git wget curl sudo gpg
+        run: apt-get update && apt-get install -y nodejs zstd git wget
       
       - name: Checkout repo
         uses: actions/checkout@master
