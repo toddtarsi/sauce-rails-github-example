@@ -34,8 +34,18 @@ jobs:
 
     steps:
       - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git wget curl sudo gpg systemctl
+        run: apt-get update && apt-get install -y nodejs zstd git wget curl sudo gpg
       
+      - name: Checkout repo
+        uses: actions/checkout@master
+
+      - name: Install System Packages
+        run: apt-get update && apt-get install -y build-essential libxml2 libxml2-dev libxslt1.1 libxslt1-dev libpq5 libpq-dev git pkg-config
+
+      - name: Install docker if using sauce outside of a process
+        uses: docker/setup-buildx-action@v1
+        if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'false'}}
+
       - name: Set up docker if using sauce outside of a process
         uses: docker-practice/actions-setup-docker@master
         if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'false'}}
@@ -53,12 +63,6 @@ jobs:
         run:  wget https://saucelabs.com/downloads/sc-$SAUCE_CONNECT_VERSION-linux.tar.gz -O - | tar -xz --strip 2
         working-directory: /usr/local/bin
         if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'true'}}
-
-      - name: Checkout repo
-        uses: actions/checkout@master
-
-      - name: Install System Packages
-        run: apt-get update && apt-get install -y build-essential libxml2 libxml2-dev libxslt1.1 libxslt1-dev libpq5 libpq-dev git pkg-config
 
       - name: Install Dependencies
         run: gem install bundler && bundle install
