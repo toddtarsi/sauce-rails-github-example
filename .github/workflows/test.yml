@@ -34,13 +34,13 @@ jobs:
 
     steps:
       - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git wget
+        run: apt-get update && apt-get install -y nodejs zstd git wget sudo apt-transport-https ca-certificates curl gnupg lsb-release
       
       - name: Checkout repo
         uses: actions/checkout@master
 
       - name: Install System Packages
-        run: apt-get update && apt-get install -y build-essential libxml2 libxml2-dev libxslt1.1 libxslt1-dev libpq5 libpq-dev git pkg-config apt-transport-https ca-certificates curl gnupg lsb-release
+        run: apt-get update && apt-get install -y build-essential libxml2 libxml2-dev libxslt1.1 libxslt1-dev libpq5 libpq-dev git pkg-config
 
       - name: Add Docker's GPG key
         run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
