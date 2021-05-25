@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Install GH Actions Prerequisites
-        run: apt-get update && apt-get install -y nodejs zstd git wget
+        run: apt-get update && apt-get install -y nodejs zstd git wget docker
       
       - name: Checkout repo
         uses: actions/checkout@master
