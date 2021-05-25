@@ -36,13 +36,17 @@ jobs:
       - name: Install GH Actions Prerequisites
         run: apt-get update && apt-get install -y nodejs zstd git wget
       
+      - name: Set up docker if using sauce outside of a process
+        uses: docker-practice/actions-setup-docker@master
+        if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'false'}}
+
       - name: If not doing in process, install sauce connect action
         uses: saucelabs/sauce-connect-action@v1
         with:
             username: ${{ env.SAUCE_USERNAME }}
             accessKey: ${{ env.SAUCE_ACCESS_KEY }}
             tunnelIdentifier: github-action-tunnel
-            scVersion: 4.6.4
+            scVersion: 4.6.5
         if: ${{env.USE_SAUCE_CONNECT_IN_PROCESS == 'false'}}
 
       - name: If using a spawned process for sc, install Sauce Connect to somewhere on PATH
